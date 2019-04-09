@@ -5,7 +5,7 @@ const request = require("request");
 const app = express();
 
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({exteded: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", function(req, res) {
     res.sendFile(__dirname + "/signup.html");
@@ -36,27 +36,30 @@ app.post("/", function(req, res) {
         url: "https://us20.api.mailchimp.com/3.0/lists/38d5502717",
         method: "POST",
         headers: {
-            "Authorization": "esther1 4a02592857c1f304c72bdfbf2b142beb-us20"
+            "Authorization": "esther1 4c0fd2caa5533e7cc8ff316d315835d7-us20"
         },
         body: jsonData
     };
 
     request(options, function(error, response, body) {
         if (error) {
-            console.log(error);
+            res.sendFile(__dirname + "/failure.html");
         } else {
-            console.log(response.statusCode);
+            if (response.statusCode === 200) {
+                res.sendFile(__dirname + "/success.html");
+            } else {
+                res.sendFile(__dirname + "/failure.html");
+            }
         }
     });
 
 });
 
-app.listen(3000, function() {
+app.post("/failure", function(req, res) {
+    res.redirect("/");
+});
+
+app.listen(process.env.PORT || 3000, function() {
     console.log("Server is running on port 3000.");
 });
 
-// API ID
-// 4a02592857c1f304c72bdfbf2b142beb-us20
-
-// LIST ID
-// 38d5502717
