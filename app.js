@@ -36,7 +36,7 @@ app.post("/", function(req, res) {
         url: "https://us20.api.mailchimp.com/3.0/lists/38d5502717",
         method: "POST",
         headers: {
-            "Authorization": "esther1 4c0fd2caa5533e7cc8ff316d315835d7-us20"
+            "Authorization": "esther1 " + mykey
         },
         body: jsonData
     };
@@ -54,6 +54,8 @@ app.post("/", function(req, res) {
     });
 
 });
+
+var mykey = config.MY_KEY;
 
 app.post("/failure", function(req, res) {
     res.redirect("/");
